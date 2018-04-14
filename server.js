@@ -1,11 +1,27 @@
+'use strict';
 const express = require('express');
 const app = express();
 const path = require('path');
+const http = require('http');
+const WebSocket = require('ws');
 
-const public = path.join(__dirname, 'public');
-app.use(express.static(public));
+const publicPath = path.join(__dirname, 'public');
+app.use(express.static(publicPath));
 
-app.get('/', (req, res) => res.sendFile(public + '/index.html'));
+app.get('/', (req, res) => res.sendFile(publicPath + '/index.html'));
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    wss.clients.forEach(c => {
+      c.send(JSON.stringify(message));
+    });
+  });
+});
 
 const port = process.env.PORT || 3000
-app.listen(port, () => console.log('Example app listening on port ' + port));
+server.listen(port, function listening() {
+  console.log(`Node.js listening on port ${port}...`);
+});
