@@ -24,6 +24,7 @@ const moves = {
 
 const player1 = {
   tag: '#player-1',
+  imgTag: '#img-1',
   pictures: {
     rock: 'rockRight.jpeg',
     paper: 'paperRight.jpeg',
@@ -33,6 +34,7 @@ const player1 = {
 
 const player2 = {
   tag: '#player-2',
+  imgTag: '#img-2',
   pictures: {
     rock: 'rockLeft.jpeg',
     paper: 'paperLeft.jpeg',
@@ -48,6 +50,7 @@ function bindMoves(player) {
       bArr.forEach(b => b.disabled = false);
       player.move = moves[this.dataset.move];
       this.disabled = true;
+      document.querySelector(player.imgTag).src = player.pictures[player.move.name];
       if (players.every(p => p.move)) {
         getWinner();
       }
@@ -60,11 +63,11 @@ players.forEach(p => bindMoves(p));
 function getWinner() {  
   document.querySelector('#game-board').hidden = false;
   if (player1.move.name === player2.move.win) {
-    alert('player2 wins.');
+    console.log('player2 wins.');
   } else if (player1.move.name === player2.move.lose) {
-    alert('player1 wins.');
+    console.log('player1 wins.');
   } else {
-    alert('a draw. boring.');
+    console.log('a draw. boring.');
   }
 }
 
