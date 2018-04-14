@@ -1,3 +1,6 @@
+'use strict';
+import '../style.css';
+
 const rock = {
   name: 'rock',
   win: 'scissors',
@@ -16,11 +19,7 @@ const scissors = {
   lose: 'rock'
 };
 
-const moves = {
-  rock,
-  paper,
-  scissors
-};
+const moves = { rock, paper, scissors };
 
 const player1 = {
   tag: '#player-1',
@@ -50,7 +49,7 @@ function bindMoves(player) {
       bArr.forEach(b => b.disabled = false);
       player.move = moves[this.dataset.move];
       this.disabled = true;
-      document.querySelector(player.imgTag).src = player.pictures[player.move.name];
+      document.querySelector(player.imgTag).src = `images/${player.pictures[player.move.name]}`;
       if (players.every(p => p.move)) {
         getWinner();
       }

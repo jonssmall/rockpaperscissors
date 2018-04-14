@@ -5,7 +5,7 @@ const path = require('path');
 const http = require('http');
 const WebSocket = require('ws');
 
-const publicPath = path.join(__dirname, 'public');
+const publicPath = path.join(__dirname, 'dist');
 app.use(express.static(publicPath));
 
 app.get('/', (req, res) => res.sendFile(publicPath + '/index.html'));
