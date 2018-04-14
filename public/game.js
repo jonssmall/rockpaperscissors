@@ -45,7 +45,7 @@ function bindMoves(player) {
   });
 }
 
-players.forEach(p => bindMoves);
+players.forEach(p => bindMoves(p));
 
 function getWinner() {  
   if (player1.move.name === player2.move.win) {
