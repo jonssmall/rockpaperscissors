@@ -3,14 +3,16 @@
 import '../style.css';
 import { moves } from './moves';
 import { players } from './players';
+import { getElement, getElements, click, enableButton} from './dom';
+import socket from './socket';
 
 function bindMoves(player) {  
-  document.querySelectorAll(`${player.tag} button`).forEach((button, i, bArr) => {    
-    button.addEventListener('click', function(event) {
-      bArr.forEach(b => b.disabled = false);
+  getElements(`${player.tag} button`).forEach((button, i, bArr) => {    
+    click(button, function(event) {
+      bArr.forEach(enableButton);
       player.move = moves[this.dataset.move];
       this.disabled = true;
-      document.querySelector(player.imgTag).src = `images/${player.pictures[player.move.name]}`;
+      getElement(player.imgTag).src = `images/${player.pictures[player.move.name]}`;
       if (players.every(p => p.move)) {
         getWinner();
       }
@@ -20,8 +22,9 @@ function bindMoves(player) {
 
 players.forEach(p => bindMoves(p));
 
-function getWinner() {  
-  document.querySelector('#game-board').hidden = false;
+function getWinner() {
+  const [player1, player2] = players;  
+  getElement('#game-board').hidden = false;
   if (player1.move.name === player2.move.win) {
     console.log('player2 wins.');
   } else if (player1.move.name === player2.move.lose) {
@@ -31,29 +34,14 @@ function getWinner() {
   }
 }
 
-const host = location.origin.replace(/^http/, 'ws');
-const clientSocket = new WebSocket(host);
-//Keeps sockets alive on Heroku.
-clientSocket.onopen = event => {  
-  setInterval(() => {
-    clientSocket.send('ping');
-  }, 24000);
-};
-clientSocket.onmessage = event => {      
-  if (event.data !== '"ping"') console.log(event.data);
-};
-
-function sendMessage(message) {
-  clientSocket.send(message);
-}
-
-document.querySelector('#reset-button').addEventListener('click', function(button) {
-  resetGame();
-});
+// document.querySelector('#reset-button').addEventListener('click', function(button) {
+//   resetGame();
+// });
+click(getElement('#reset-button'), resetGame);
 
 function resetGame() {
-  delete player1.move;
-  delete player2.move;
-  document.querySelector('#game-board').hidden = true;
-  document.querySelectorAll(`button`).forEach(button => button.disabled = false);    
+  players.forEach(p => delete p.move);
+  getElement('#game-board').hidden = true;
+  getElements(`button`).forEach(enableButton);    
+  socket.sendMessage("Reset!");
 }
