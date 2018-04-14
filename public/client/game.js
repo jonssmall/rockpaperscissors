@@ -1,47 +1,8 @@
 'use strict';
+
 import '../style.css';
-
-const rock = {
-  name: 'rock',
-  win: 'scissors',
-  lose: 'paper'
-};
-
-const paper = {
-  name: 'paper',
-  win: 'rock',
-  lose: 'scissors'
-};
-
-const scissors = {
-  name: 'scissors',
-  win: 'paper',
-  lose: 'rock'
-};
-
-const moves = { rock, paper, scissors };
-
-const player1 = {
-  tag: '#player-1',
-  imgTag: '#img-1',
-  pictures: {
-    rock: 'rockRight.jpg',
-    paper: 'paperRight.jpg',
-    scissors: 'scissorsRight.jpg'
-  }
-};
-
-const player2 = {
-  tag: '#player-2',
-  imgTag: '#img-2',
-  pictures: {
-    rock: 'rockLeft.jpg',
-    paper: 'paperLeft.jpg',
-    scissors: 'scissorsLeft.jpg'
-  }
-};
-
-const players = [player1, player2];
+import { moves } from './moves';
+import { players } from './players';
 
 function bindMoves(player) {  
   document.querySelectorAll(`${player.tag} button`).forEach((button, i, bArr) => {    
