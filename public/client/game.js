@@ -37,9 +37,9 @@ function getWinner() {
 
 click(getElement('#reset-button'), resetGame);
 
-function resetGame() {
+export function resetGame() {
   players.forEach(p => delete p.move);
   getElement('#game-board').hidden = true;
   getElements(`button`).forEach(enableButton);    
-  socket.sendMessage("Reset!");
+  socket.sendMessage(players);
 }

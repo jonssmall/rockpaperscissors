@@ -1,6 +1,7 @@
 'use strict';
 
 import { getElement } from './dom';
+import { resetGame } from './game';
 
 const host = location.origin.replace(/^http/, 'ws');
 const clientSocket = new WebSocket(host);
@@ -13,11 +14,16 @@ clientSocket.onopen = event => {
 clientSocket.onmessage = event => {      
   if (event.data !== "ping") {
     const players = JSON.parse(event.data);
-    players.forEach(p => {
-      if (p.move) {
-        getElement(`${p.tag} [data-move='${p.move.name}']`).click();
-      }      
-    });    
+    // neither player has moves means a reset button was called;
+    if (!players.some(p => p.move)) {
+      resetGame();
+    } else {
+      players.forEach(p => {
+        if (p.move) {
+          getElement(`${p.tag} [data-move='${p.move.name}']`).click();
+        }
+      });
+    }    
   }
 };
 
