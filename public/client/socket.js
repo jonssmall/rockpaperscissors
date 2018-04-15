@@ -23,7 +23,13 @@ clientSocket.onmessage = event => {
           getElement(`${p.tag} [data-move='${p.move.name}']`).click();
         }
       });
-    }    
+    }
+
+    // players.forEach(p => {
+    //   if (p.move) {
+    //     getElement(`${p.tag} [data-move='${p.move.name}']`).click();
+    //   }
+    // });
   }
 };
 

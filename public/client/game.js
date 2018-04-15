@@ -38,8 +38,10 @@ function getWinner() {
 click(getElement('#reset-button'), resetGame);
 
 export function resetGame() {
-  players.forEach(p => delete p.move);
-  getElement('#game-board').hidden = true;
-  getElements(`button`).forEach(enableButton);    
-  socket.sendMessage(players);
+  if (players.every(p => p.move)) {
+    players.forEach(p => delete p.move);
+    getElement('#game-board').hidden = true;
+    getElements(`button`).forEach(enableButton);    
+    socket.sendMessage(players);
+  }  
 }
