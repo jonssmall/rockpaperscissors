@@ -1,5 +1,7 @@
 'use strict';
 
+import { getElement } from './dom';
+
 const host = location.origin.replace(/^http/, 'ws');
 const clientSocket = new WebSocket(host);
 //Keeps sockets alive on Heroku.
@@ -9,7 +11,14 @@ clientSocket.onopen = event => {
   }, 24000);
 };
 clientSocket.onmessage = event => {      
-  if (event.data !== '"ping"') console.log(JSON.parse(event.data));
+  if (event.data !== "ping") {
+    const players = JSON.parse(event.data);
+    players.forEach(p => {
+      if (p.move) {
+        getElement(`${p.tag} [data-move='${p.move.name}']`).click();
+      }      
+    });    
+  }
 };
 
 function sendMessage(message) {
