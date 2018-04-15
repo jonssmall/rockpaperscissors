@@ -11,6 +11,7 @@ function bindMoves(player) {
     click(button, function(event) {
       bArr.forEach(enableButton);
       player.move = moves[this.dataset.move];
+      socket.sendMessage(players);
       this.disabled = true;
       getElement(player.imgTag).src = `images/${player.pictures[player.move.name]}`;
       if (players.every(p => p.move)) {
@@ -34,9 +35,6 @@ function getWinner() {
   }
 }
 
-// document.querySelector('#reset-button').addEventListener('click', function(button) {
-//   resetGame();
-// });
 click(getElement('#reset-button'), resetGame);
 
 function resetGame() {

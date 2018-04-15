@@ -9,14 +9,13 @@ clientSocket.onopen = event => {
   }, 24000);
 };
 clientSocket.onmessage = event => {      
-  if (event.data !== '"ping"') console.log(event.data);
+  if (event.data !== '"ping"') console.log(JSON.parse(event.data));
 };
 
 function sendMessage(message) {
-  clientSocket.send(message);
+  clientSocket.send(JSON.stringify(message));
 }
 
 export default {  
   sendMessage
 }
-
